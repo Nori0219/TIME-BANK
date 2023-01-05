@@ -71,6 +71,7 @@ class _FloatingActionBubbleWidgetState extends State<FloatingActionBubbleWidget>
             onPress: () {
               _animationController.reverse();
               stateDate.checkSpending();
+              //stateDate.setSpendingTimer();
             },
           ),
           //Floating action menu item

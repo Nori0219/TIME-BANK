@@ -19,6 +19,13 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+
+  @override
+  void initState() {
+    
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     // Provider.of<T>(context) で親Widgetからデータを受け取る
@@ -43,71 +50,9 @@ class _HomePageState extends State<HomePage> {
       body: Column(
         children: [
           TopBar_Widget(),
-          stateDate.isSavingTime && !stateDate.isSpendTime ? SavingTimeWidget(height: _height, width: _width):
-          Column(
-            children: [
-              NeonCircularTimer(
-                          onComplete: () {
-                            setCurrentTimer();
-                            controller.restart();
-                          },
-                          width: 240,
-                          controller: controller,//カウントsダウン タイマーを制御 (開始、一時停止、再開、再起動)
-                          duration: 180,//秒単位のカウントダウン期間
-                          strokeWidth: 16,
-                          textFormat:TextFormat.HH_MM_SS,
-                          initialDuration:0,//CurrentTimer,//タイマーの最初の経過時間 (秒)
-                          isTimerTextShown: true,
-                          isReverse:isReverse,//カウントダウンモード
-                          isReverseAnimation:isReverse,
-                          autoStart:false,
-                          neumorphicEffect: true,//ニューモーフィックボーダーを表示
-                          outerStrokeColor: Colors.grey.shade100,//カウントダウン ウィジェットの境界線の色
-                          innerFillGradient: LinearGradient(colors: [
-                            Colors.greenAccent.shade200,
-                            Colors.blueAccent.shade400
-                          ]),
-                          neonGradient: LinearGradient(colors: [
-                            Colors.greenAccent.shade200,
-                            Colors.blueAccent.shade400
-                          ]),
-                          strokeCap: StrokeCap.round,
-                          innerFillColor: Color.fromARGB(150, 4, 189, 149),
-                          backgroudColor: Colors.grey.shade100,//丸の部分の背景
-                          neonColor: Colors.blue.shade900,),
-                          Padding(
-                    padding: const EdgeInsets.all(40),
-                    child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          IconButton(
-                              icon: Icon(Icons.play_arrow),
-                              onPressed: () {
-                                controller.resume();
-                              }),
-                          IconButton(
-                              icon: Icon(Icons.pause),
-                              onPressed: () {
-                                controller.pause();
-                              }),
-                          IconButton(
-                              icon: Icon(Icons.repeat),
-                              onPressed: () {
-                                controller.restart();
-                              }),
-                          IconButton(
-                              icon: Icon(Icons.hourglass_bottom),
-                              onPressed: () {
-                                controller.getTimeInSeconds();
-                                print(controller.getTime());
-                                str = controller.getTime();
-                                isReverse =! isReverse;
-                                print('isReverse=$isReverse');
-                              }),
-                        ]),
-                  ),
-            ],
-          ),
+          stateDate.isSavingTime && !stateDate.isSpendTime ? 
+          SavingTimeWidget(height: _height, width: _width)
+          :SpendingTimeWidget(controller: controller, isReverse: isReverse, stateDate: stateDate),
         ],
       ),
       //loatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
@@ -117,6 +62,177 @@ class _HomePageState extends State<HomePage> {
         child: FloatingActionBubbleWidget()),
     );
     //将来的にはここに広告
+  }
+}
+
+class SpendingTimeWidget extends StatefulWidget {
+  const SpendingTimeWidget({
+    super.key,
+    required this.controller,
+    required this.isReverse,
+    required this.stateDate,
+  });
+
+  final CountDownController controller;
+  final bool isReverse;
+  final TimerProvider stateDate;
+
+  @override
+  State<SpendingTimeWidget> createState() => _SpendingTimeWidgetState();
+}
+
+class _SpendingTimeWidgetState extends State<SpendingTimeWidget> {
+  @override
+  Widget build(BuildContext context) {
+
+    List <String> wordsList = [
+      '息抜きも大切',//豚貯金
+      'まったり空でも眺めましょう',//カフェタイム
+      '目を休めて',
+      '散歩も良いリラックス',
+      'おいしいものでも食べに行きましょう',
+    ];
+    var random = new Random();
+
+    var randomWords = wordsList[random.nextInt(wordsList.length)];
+    void chageWords(){
+      setState(() {
+        randomWords == randomWords;
+      });
+      print(randomWords);
+    }
+
+    return Column(
+      children: [
+        SizedBox(height: 40,),
+        NeonCircularTimer(
+          onComplete: () {
+            //setCurrentTimer();
+            //controller.restart();
+            widget.stateDate.setSpendingTimer();
+            print('アラーム終了ですよーーーー！！');
+          },
+          width: 240,
+          controller: widget.controller,//カウントsダウン タイマーを制御 (開始、一時停止、再開、再起動)
+          duration: 180,//秒単位のカウントダウン期間
+          strokeWidth: 16,
+          textFormat:TextFormat.HH_MM_SS,
+          initialDuration:0,//CurrentTimer,//タイマーの最初の経過時間 (秒)
+          isTimerTextShown: true,
+          isReverse:widget.isReverse,//カウントダウンモード
+          isReverseAnimation:widget.isReverse,
+          autoStart:false,
+          neumorphicEffect: true,//ニューモーフィックボーダーを表示
+          outerStrokeColor: Colors.grey.shade100,//カウントダウン ウィジェットの境界線の色
+          innerFillGradient: LinearGradient(colors: [
+            Color(0xffeee3d0),
+            Color(0xfffac172)
+          ]),
+          neonGradient: LinearGradient(colors: [
+            Color(0xffeee3d0),
+            Color(0xfffac172)
+          ]),
+          strokeCap: StrokeCap.round,
+          innerFillColor: Color(0xffFFFEF6),
+          backgroudColor: Colors.grey.shade100,//丸の部分の背景
+          neonColor: Color(0xfffac172),
+          ),
+        Padding(
+          padding: const EdgeInsets.all(40),
+          child: Column(
+            children: [
+              // Row(
+              //     mainAxisAlignment: MainAxisAlignment.spaceAround,
+              //     children: [
+              //       IconButton(
+              //           icon: Icon(Icons.play_arrow),
+              //           onPressed: () {
+              //             controller.resume();
+              //           }),
+              //       IconButton(
+              //           icon: Icon(Icons.pause),
+              //           onPressed: () {
+              //             controller.pause();
+              //           }),
+              //       IconButton(
+              //           icon: Icon(Icons.repeat),
+              //           onPressed: () {
+              //             controller.restart();
+              //             stateDate.setSpendingTimer();
+              //           }),
+              //       IconButton(
+              //           icon: Icon(Icons.hourglass_bottom),
+              //           onPressed: () {
+              //             controller.getTimeInSeconds();
+              //             print(controller.getTime());
+              //             str = controller.getTime();
+              //             isReverse =! isReverse;
+              //             //print('isReverse=$isReverse');
+              //           }),
+              //     ]),
+                  AnimatedButton(
+                      height: 80.h,
+                      width: 220.w,
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: widget.stateDate.isStartSepedingTimer?
+                      Container(
+                        alignment: Alignment.center,
+                        child: Text(randomWords,
+                        style: TextStyle(
+                                  fontSize: 21.sp,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                        ),
+                      )
+                      
+                      :Container(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Icon(
+                              Icons.emoji_food_beverage,
+                              color: Colors.white,
+                              size:32.sp,
+                            ),
+                            SizedBox(width: 8.w),
+                            Text( 'START',
+                              style: TextStyle(
+                                fontSize: 32.sp,
+                                color: Colors.white,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    onPressed: () {
+                      if (widget.stateDate.isStartSepedingTimer == true) {
+                        
+                        chageWords();
+                        //controller.pause();
+                        //stateDate.setSpendingTimer();
+                        //print('ボタンは無効化されました');
+                      } else {
+                        print('isStartSepedingTimer:${widget.stateDate.isStartSepedingTimer}');
+                        widget.controller.restart();
+                        widget.stateDate.setSpendingTimer();
+                      }
+                    },
+                    shadowDegree: ShadowDegree.light,
+                    //color: Color(0xffeee3d0),
+                    //color: Color(0xff5f8d9a),
+                    //color: Color(0xffc3c8b0),
+                    color: Color(0xfffac172),
+                    //color: Color(0xfff0ceb5),
+                  ),
+            ],
+          ),
+        ),
+      ],
+    );
   }
 }
 
