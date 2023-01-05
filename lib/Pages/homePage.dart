@@ -50,9 +50,16 @@ class _HomePageState extends State<HomePage> {
       body: Column(
         children: [
           TopBar_Widget(),
-          stateDate.isSavingTime && !stateDate.isSpendTime ? 
-          SavingTimeWidget(height: _height, width: _width)
-          :SpendingTimeWidget(controller: controller, isReverse: isReverse, stateDate: stateDate),
+          AnimatedSwitcher(
+            duration: const Duration(milliseconds: 800),
+            // transitionBuilder: (Widget child, Animation<double> animation) {
+            //   return ScaleTransition(scale: animation, child: child);
+            // },
+            child: stateDate.isSavingTime && !stateDate.isSpendTime ? 
+            SavingTimeWidget(height: _height, width: _width)
+            :SpendingTimeWidget(controller: controller, isReverse: isReverse, stateDate: stateDate),
+          )
+          
         ],
       ),
       //loatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
