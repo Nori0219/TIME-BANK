@@ -48,6 +48,7 @@ class _FloatingActionBubbleWidgetState extends State<FloatingActionBubbleWidget>
             titleStyle:TextStyle(fontSize: 16.sp , color: Colors.white),
             onPress: () {
               _animationController.reverse();
+              stateDate.checkSetting();
             },
           ),
           // Floating action menu item
@@ -59,6 +60,7 @@ class _FloatingActionBubbleWidgetState extends State<FloatingActionBubbleWidget>
             titleStyle:TextStyle(fontSize: 16.sp , color: Colors.white),
             onPress: () {
               _animationController.reverse();
+              print('使い方紹介ページへの遷移処理');
             },
           ),
           // Floating action menu item

@@ -55,11 +55,22 @@ class _HomePageState extends State<HomePage> {
             // transitionBuilder: (Widget child, Animation<double> animation) {
             //   return ScaleTransition(scale: animation, child: child);
             // },
-            child: stateDate.isSavingTime && !stateDate.isSpendTime ? 
-            SavingTimeWidget(height: _height, width: _width)
-            :SpendingTimeWidget(controller: controller, isReverse: isReverse, stateDate: stateDate),
-          )
-          
+           // child:stateDate.PageList[stateDate.currentPageIndex],
+
+            // child: 
+            // stateDate.isSavingTime && !stateDate.isSpendTime ? 
+            // SavingTimeWidget(height: _height, width: _width)
+            // :SpendingTimeWidget(controller: controller, isReverse: isReverse, stateDate: stateDate),
+            child: ((){//即時関数を使えばif文が使える。ただしwidgetを返すにはreturnが必要
+              if (stateDate.currentPageIndex == 0) {
+                return SavingTimeWidget(height: _height, width: _width);
+              } else if(stateDate.currentPageIndex == 1){
+                return SpendingTimeWidget(controller: controller, isReverse: isReverse, stateDate: stateDate);
+              } else{
+                return SavingTimeWidget(height: _height, width: _width);
+              }
+            })(),
+          ),
         ],
       ),
       //loatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
@@ -259,6 +270,13 @@ class SavingTimeWidget extends StatelessWidget {
       children: [
         LottieAnimation(),
         SizedBox(height: _height/16,),
+        Text('時間を貯める',
+        style: TextStyle(
+                  fontSize: 24.sp,
+                  color: Color(0xff5f8d9a),
+                  fontWeight: FontWeight.bold,
+                ),
+        ),
         AnimatedButton(
           height: 80.h,
           width: 220.w,

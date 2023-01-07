@@ -1,32 +1,42 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:timeclock/Pages/homePage.dart';
 
 class TimerProvider extends ChangeNotifier{
-  bool isSavingTime = true;
-  bool isSpendTime = false;
-  bool isSetting = false;
   bool isStartSepedingTimer = false;
+  int currentPageIndex = 0;
+  
+  // List <Widget>PageList = [
+  //   SavingTimeWidget(height: height, width: width),
+  //   SpendingTimeWidget(controller: controller, isReverse: isReverse, stateDate: stateDate),
+  // ];
+  // void selectMode(){
+  //   if () {
+      
+  //   }
+  // }
 
   void checkSaving() {
-    isSavingTime =! isSavingTime;
-    print('isSavingTime :$isSavingTime');
+    currentPageIndex = 0;
+    print('時間を貯める');
     notifyListeners();
   }
 
   void checkSpending() {
-    isSpendTime =! isSpendTime;
-    print('isSpendTime :$isSpendTime');
+    currentPageIndex = 1;
+    print('時間を使う');
     notifyListeners();
   }
 
   void checkSetting() {
-    isSetting =! isSetting;
+    currentPageIndex = 2;
+    print('設定');
     notifyListeners();
   }
 
   void setSpendingTimer() {
-    isStartSepedingTimer =! isStartSepedingTimer;
+    print('タイマースタート');
     notifyListeners();
   }
 
