@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lottie/lottie.dart';
 import 'package:neon_circular_timer/neon_circular_timer.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:timeclock/Pages/fluatingActionBubble.dart';
 import 'package:timeclock/clock.dart';
 import 'package:timeclock/provider/providers.dart';
@@ -20,10 +21,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
 
-  @override
-  void initState() {
-    super.initState();
-  }
+  
 
   @override
   Widget build(BuildContext context) {
@@ -225,6 +223,14 @@ class SavingTimeWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final  stateDate = Provider.of<TimerProvider>(context);
     final  model = Provider.of<StopWatchModel>(context);
+
+    // setPrefItems() async {
+    // SharedPreferences prefs = await SharedPreferences.getInstance();
+    // // 以下の「stopWatch」がキー名。
+    // prefs.setString('stopWatch', model.stopWatchTimeDisplay);
+    // print('sharedPreferencesに記録stopWatchTimeDisplay=${model.stopWatchTimeDisplay}');
+    // }
+
     return Column(
       children: [
         LottieAnimation(),
@@ -264,7 +270,7 @@ class SavingTimeWidget extends StatelessWidget {
           ),
           onPressed: () {
             model.stopStopWatch();
-            print('SavingTimer Stop');
+            model.setPrefItems();
           },
           shadowDegree: ShadowDegree.light,
           color: Color(0xffc3c8b0),
@@ -300,7 +306,6 @@ class SavingTimeWidget extends StatelessWidget {
         ),
         onPressed: () {
           model.startStopWatch();
-          print('SavingTimer Start');
         },
         shadowDegree: ShadowDegree.light,
         color: Color(0xffeee3d0),

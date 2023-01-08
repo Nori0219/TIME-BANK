@@ -7,7 +7,7 @@ import 'package:slide_countdown/slide_countdown.dart';
 
 class TimerProvider extends ChangeNotifier{
   bool isStartSepedingTimer = false;
-  int currentPageIndex = 2;
+  int currentPageIndex = 0;
   
 
   void checkSaving() {

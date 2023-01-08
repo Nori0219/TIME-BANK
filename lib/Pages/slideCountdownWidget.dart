@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import '../provider/providers.dart';
 import '../provider/stopwatch_model.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SlideCountdownWidget extends StatefulWidget {
   const SlideCountdownWidget({Key? key}) : super(key: key);
@@ -12,7 +13,8 @@ class SlideCountdownWidget extends StatefulWidget {
 }
 
 class _SlideCountdownWidgetState extends State<SlideCountdownWidget> {
-  
+
+
   @override
   Widget build(BuildContext context) {
 
@@ -36,21 +38,6 @@ class _SlideCountdownWidgetState extends State<SlideCountdownWidget> {
             style: TextStyle(fontSize: 45.sp,fontWeight: FontWeight.bold,color: Color(0xffFFFEF6)),
           ),
         ),
-        // ElevatedButton(
-        //   onPressed:() {
-        //     model.stopStopWatch();
-        //    // SavingStreamDuration.pause();
-        //   },
-        //   child: Text('Pause'),
-        // ),
-        // const SizedBox(height: 10),
-        // ElevatedButton(
-        //   onPressed: () {
-        //     model.startStopWatch();
-        //     print('PLAY');
-        //   },
-        //   child: Text('Play'),
-        // ),
       ],
     );
   }
