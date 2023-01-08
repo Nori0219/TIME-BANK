@@ -5,9 +5,9 @@ import 'package:neon_circular_timer/neon_circular_timer.dart';
 import 'package:provider/provider.dart';
 import 'package:slide_countdown/slide_countdown.dart';
 import 'package:timeclock/Pages/homePage.dart';
-import 'package:timeclock/newclock.dart';
 import 'package:timeclock/provider/providers.dart';
-import 'clock.dart';
+import 'package:timeclock/provider/stopwatch_model.dart';
+
 
 void main() {
     runApp(
@@ -15,6 +15,9 @@ void main() {
       providers: [
         ChangeNotifierProvider<TimerProvider>( //プロバイダー名
           create: (context) => TimerProvider(),//プロバイダー名
+        ),
+        ChangeNotifierProvider<StopWatchModel>( //プロバイダー名
+          create: (context) => StopWatchModel(),//プロバイダー名
         ),
       ],
       child: MyApp(),

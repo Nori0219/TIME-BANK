@@ -106,8 +106,9 @@ class _ExampleControlDurationState extends State<ExampleControlDuration> {
   @override
   void initState() {
     super.initState();
+    print('clockイニシャライズ');
     _streamDuration = StreamDuration(
-      const Duration(hours: 2),
+      const Duration(),infinity: true,countUp: true,
     );
   }
 
@@ -119,20 +120,15 @@ class _ExampleControlDurationState extends State<ExampleControlDuration> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Example Control Duration'),
-      ),
-      body: SizedBox.expand(
-        child: Column(
+    return Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             SlideCountdown(
               // This duration no effect if you customize stream duration
               streamDuration: _streamDuration,
-              duration: const Duration(seconds: 10),
-              countUp: true,
+              // duration: const Duration(seconds: 10),
+              // countUp: true,
             ),
             const SizedBox(height: 10),
             ElevatedButton(
@@ -165,9 +161,8 @@ class _ExampleControlDurationState extends State<ExampleControlDuration> {
               },
               child: Text('Subtract Duration'),
             ),
+            
           ],
-        ),
-      ),
-    );
+        );
   }
 }

@@ -1,21 +1,14 @@
+
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:timeclock/Pages/homePage.dart';
+import 'package:slide_countdown/slide_countdown.dart';
+
 
 class TimerProvider extends ChangeNotifier{
   bool isStartSepedingTimer = false;
-  int currentPageIndex = 0;
+  int currentPageIndex = 2;
   
-  // List <Widget>PageList = [
-  //   SavingTimeWidget(height: height, width: width),
-  //   SpendingTimeWidget(controller: controller, isReverse: isReverse, stateDate: stateDate),
-  // ];
-  // void selectMode(){
-  //   if () {
-      
-  //   }
-  // }
 
   void checkSaving() {
     currentPageIndex = 0;

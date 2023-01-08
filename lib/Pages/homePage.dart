@@ -1,15 +1,15 @@
 import 'package:animated_button/animated_button.dart';
 import 'package:flutter/material.dart';
 import 'dart:math';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lottie/lottie.dart';
 import 'package:neon_circular_timer/neon_circular_timer.dart';
 import 'package:provider/provider.dart';
-import 'package:slide_countdown/slide_countdown.dart';
 import 'package:timeclock/Pages/fluatingActionBubble.dart';
+import 'package:timeclock/clock.dart';
 import 'package:timeclock/provider/providers.dart';
+import '../provider/stopwatch_model.dart';
+import 'slideCountdownWidget.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -22,7 +22,6 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void initState() {
-    
     super.initState();
   }
 
@@ -35,15 +34,6 @@ class _HomePageState extends State<HomePage> {
     var  _width = MediaQuery.of(context).size.width;
 
     final CountDownController controller = new CountDownController();
-    int CurrentTimer = 0;
-    String str = '';
-    
-    void setCurrentTimer () {
-      controller.getTime();
-      str = controller.getTime();
-      print(str);
-      //CurrentTimer = int.parse(str);
-    }
     bool isReverse = true;
 
     return Scaffold(
@@ -55,17 +45,13 @@ class _HomePageState extends State<HomePage> {
             // transitionBuilder: (Widget child, Animation<double> animation) {
             //   return ScaleTransition(scale: animation, child: child);
             // },
-           // child:stateDate.PageList[stateDate.currentPageIndex],
-
-            // child: 
-            // stateDate.isSavingTime && !stateDate.isSpendTime ? 
-            // SavingTimeWidget(height: _height, width: _width)
-            // :SpendingTimeWidget(controller: controller, isReverse: isReverse, stateDate: stateDate),
             child: ((){//即時関数を使えばif文が使える。ただしwidgetを返すにはreturnが必要
               if (stateDate.currentPageIndex == 0) {
                 return SavingTimeWidget(height: _height, width: _width);
               } else if(stateDate.currentPageIndex == 1){
                 return SpendingTimeWidget(controller: controller, isReverse: isReverse, stateDate: stateDate);
+              } else if(stateDate.currentPageIndex == 2){
+                return ExampleControlDuration();
               } else{
                 return SavingTimeWidget(height: _height, width: _width);
               }
@@ -73,8 +59,7 @@ class _HomePageState extends State<HomePage> {
           ),
         ],
       ),
-      //loatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      
+
       floatingActionButton: Container(
         margin:EdgeInsets.only(bottom: 50.0,right: 30,),
         child: FloatingActionBubbleWidget()),
@@ -159,52 +144,22 @@ class _SpendingTimeWidgetState extends State<SpendingTimeWidget> {
           padding: const EdgeInsets.all(40),
           child: Column(
             children: [
-              // Row(
-              //     mainAxisAlignment: MainAxisAlignment.spaceAround,
-              //     children: [
-              //       IconButton(
-              //           icon: Icon(Icons.play_arrow),
-              //           onPressed: () {
-              //             controller.resume();
-              //           }),
-              //       IconButton(
-              //           icon: Icon(Icons.pause),
-              //           onPressed: () {
-              //             controller.pause();
-              //           }),
-              //       IconButton(
-              //           icon: Icon(Icons.repeat),
-              //           onPressed: () {
-              //             controller.restart();
-              //             stateDate.setSpendingTimer();
-              //           }),
-              //       IconButton(
-              //           icon: Icon(Icons.hourglass_bottom),
-              //           onPressed: () {
-              //             controller.getTimeInSeconds();
-              //             print(controller.getTime());
-              //             str = controller.getTime();
-              //             isReverse =! isReverse;
-              //             //print('isReverse=$isReverse');
-              //           }),
-              //     ]),
                   AnimatedButton(
                       height: 80.h,
                       width: 220.w,
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: widget.stateDate.isStartSepedingTimer?
+                      child: widget.stateDate.isStartSepedingTimer?//時間を使うタイマーがスタートしているか
                       Container(
                         alignment: Alignment.center,
                         child: Text(randomWords,
                         style: TextStyle(
-                                  fontSize: 21.sp,
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.w500,
-                                ),
+                            fontSize: 21.sp,
+                            color: Colors.white,
+                            fontWeight: FontWeight.w500,
+                          ),
                         ),
                       )
-                      
                       :Container(
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -264,20 +219,61 @@ class SavingTimeWidget extends StatelessWidget {
   final double _height;
   final double _width;
 
+  
+
   @override
   Widget build(BuildContext context) {
+    final  stateDate = Provider.of<TimerProvider>(context);
+    final  model = Provider.of<StopWatchModel>(context);
     return Column(
       children: [
         LottieAnimation(),
         SizedBox(height: _height/16,),
         Text('時間を貯める',
         style: TextStyle(
-                  fontSize: 24.sp,
-                  color: Color(0xff5f8d9a),
-                  fontWeight: FontWeight.bold,
-                ),
+              fontSize: 24.sp,
+              color: Color(0xff5f8d9a),
+              fontWeight: FontWeight.bold,
+            ),
         ),
+        model.isTimerWorking?
         AnimatedButton(
+            height: 80.h,
+            width: 220.w,
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Icon(
+                  Icons.add_shopping_cart,
+                  color: Colors.white,
+                  size:32.sp,
+                ),
+                SizedBox(width: 8.w),
+                Text(
+                  'STOP',
+                  style: TextStyle(
+                    fontSize: 32.sp,
+                    color: Colors.white,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          onPressed: () {
+            model.stopStopWatch();
+            print('SavingTimer Stop');
+          },
+          shadowDegree: ShadowDegree.light,
+          color: Color(0xffc3c8b0),
+          //color: Color(0xff5f8d9a),
+          //color: Color(0xffc3c8b0),
+          //color: Color(0xfffac172),
+          //color: Color(0xfff0ceb5),
+        )
+        :AnimatedButton(
           height: 80.h,
           width: 220.w,
         child: Padding(
@@ -303,8 +299,8 @@ class SavingTimeWidget extends StatelessWidget {
           ),
         ),
         onPressed: () {
-          // print('width: $_width');
-          // print('height: $_height');
+          model.startStopWatch();
+          print('SavingTimer Start');
         },
         shadowDegree: ShadowDegree.light,
         color: Color(0xffeee3d0),
@@ -328,6 +324,8 @@ class LottieAnimation extends StatelessWidget {
     var _height = MediaQuery.of(context).size.height;
     var  _width = MediaQuery.of(context).size.width;
 
+    String LottieImage ='assets/animation/saving_pig.json'; //デフォルトの画像
+
     final LottieImages = [
       'assets/animation/saving_pig.json',//豚貯金
       'assets/animation/cafe_time.json',//カフェタイム
@@ -336,29 +334,40 @@ class LottieAnimation extends StatelessWidget {
       'assets/animation/Mechanical_timer.json',
     ];
     var random = new Random();
-
-    var randomElem = LottieImages[random.nextInt(LottieImages.length)];;
-
+    
+    var randomElem = LottieImages[random.nextInt(LottieImages.length)];
+    
+    void changeLotiie(){
+      LottieImage = randomElem;
+    }
 
     return Container(
       //color: Colors.amberAccent,
-      height:_height*0.3,
+      height:_height*0.3.h,
       child:Lottie.asset(randomElem),
     );
   }
 }
 
 
-class TopBar_Widget extends StatelessWidget {
+class TopBar_Widget extends StatefulWidget {
   const TopBar_Widget({
     Key? key,
   }) : super(key: key);
 
   @override
+  State<TopBar_Widget> createState() => _TopBar_WidgetState();
+}
+
+class _TopBar_WidgetState extends State<TopBar_Widget> {
+
+
+
+  @override
   Widget build(BuildContext context) {
     var _height = MediaQuery.of(context).size.height;
     var  _width = MediaQuery.of(context).size.width;
-
+  
     return Stack(
       //alignment: AlignmentDirectional.center,
       children: <Widget>[
@@ -392,30 +401,19 @@ class TopBar_Widget extends StatelessWidget {
           margin: EdgeInsets.only(top: _height/5),
           //color: Colors.amber,
           child: Material(
-            borderRadius: BorderRadius.circular(30.h),
+            borderRadius: BorderRadius.circular(16.h),
             elevation: 4,
+            color:Color(0xffFFFEF6),
             child: Container(
               padding: EdgeInsets.all(10.h),
               width: _width/1.2.w,
-              height: _height/14.h,
+              //height: _height/14.h,
               decoration: BoxDecoration(
-                //border: Border.all(color: Colors.blue), //縁の色
                 borderRadius: BorderRadius.circular(30.0),
               ),
               child:  
               Center(
-                child: SlideCountdownSeparated(
-                  duration: const Duration(days: 2),
-                  countUp: true,
-                  height: 50.h,
-                  width: 50.h,
-                  textStyle: TextStyle(fontSize: 30.sp,fontWeight: FontWeight.bold,color: Colors.white),
-                  decoration: BoxDecoration(
-                  borderRadius: BorderRadius.all(Radius.circular(10.h)),
-                  color: Color(0xfff0ceb5),
-                  
-                  ),
-                ),
+                child: SlideCountdownWidget(),
               ),
             ),
           ),
@@ -433,6 +431,7 @@ class TopBar_Widget extends StatelessWidget {
                 child: GestureDetector(
                   onTap: (){
                     //押した時の処理
+                    print('stop');
                   },
                     child: Icon(Icons.notifications, color: Colors.black,size: 30.h,)),
               ),
@@ -443,4 +442,3 @@ class TopBar_Widget extends StatelessWidget {
     );
   }
 }
-
