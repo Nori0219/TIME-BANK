@@ -52,7 +52,7 @@ class _TimerPickerPageState extends State<TimerPickerPage> {
                     TimerModel.spendTime = SelectSeconds;//pickerで選んだ時間でタイマーをセットする
                     print('Set spendTime : spendTime = ${TimerModel.spendTime}');
                     stateDate.setTimerDuration();// hasTimerDuration != hasTimerDuration
-                    Utils.showSnackBar(context, 'Select "$value" "$SelectSeconds"');
+                    // Utils.showSnackBar(context, 'Select "$value" "$SelectSeconds"');
                     Navigator.pop(context);
                   },
                 ),

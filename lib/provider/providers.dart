@@ -29,7 +29,7 @@ class TimerProvider extends ChangeNotifier{
   }
 
   void setSpendingTimer() {
-    isTimerRunning = true;
+    isTimerRunning = !isTimerRunning;
     //print('タイマースタート');
     notifyListeners();
   }

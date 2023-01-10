@@ -55,7 +55,10 @@ class _HomePageState extends State<HomePage> {
               } else if(stateDate.currentPageIndex == 1){
                 return SpendingTimeWidget(controller: controller, isReverse: isReverse);
               } else if(stateDate.currentPageIndex == 2){
-                return TimerPickerPage();
+                return 
+                Setting();
+                
+
               } else{
                 //return SavingTimeWidget(height: _height, width: _width);
               }
@@ -69,6 +72,77 @@ class _HomePageState extends State<HomePage> {
         child: FloatingActionBubbleWidget()),
     );
     //将来的にはここに広告
+  }
+}
+
+class Setting extends StatelessWidget {
+  const Setting({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    // Provider.of<T>(context) で親Widgetからデータを受け取る
+    final  TimerModel = Provider.of<StopWatchTimerModel>(context);
+    return Column(
+      children: [
+        SizedBox(height: 48.h,),
+        Text('【設定】',
+        style: TextStyle(
+              fontSize: 30.sp,
+              color: Color(0xff5f8d9a),
+              fontWeight: FontWeight.bold,
+            ),
+        ),
+        SizedBox(height: 24.h,),
+        Text('・貯めた時間をリセットする',
+        style: TextStyle(
+              fontSize: 24.sp,
+              color: Color(0xff5f8d9a),
+              fontWeight: FontWeight.bold,
+            ),
+        ),
+        SizedBox(height: 24.h,),
+        AnimatedButton(
+            height: 60.h,
+            width: 180.w,
+              child: Padding(
+                padding:EdgeInsets.all(8.0.r),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Icon(
+                      Icons.delete,
+                      color: Colors.white,
+                      size:28.sp,
+                    ),
+                    SizedBox(width: 8.w),
+                    Text(
+                      'RESET',
+                      style: TextStyle(
+                        fontSize: 28.sp,
+                        color: Colors.white,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              //onPressed: TimerModel.stopWatchTimer.onStopTimer,
+              onPressed: () {
+                TimerModel.removePrefItems();
+                print('reset');
+              },
+              shadowDegree: ShadowDegree.light,
+              //color: Color(0xffc3c8b0),
+              color: Color(0xff5f8d9a),
+              // color: Color(0xffc3c8b0),
+              // color: Color(0xfffac172),
+              // color: Color(0xfff0ceb5),
+            ),
+        
+      ],
+    );
   }
 }
 
@@ -164,7 +238,7 @@ class SpendingTimeWidgetState extends State<SpendingTimeWidget> {
                 padding:  EdgeInsets.all(24.r),
                 child: Column(
                   children: [
-                    Text('時間を使う',
+                    Text('時間を費う',
                     style: TextStyle(
                           fontSize: 24.sp,
                           color: Color(0xff5f8d9a),
@@ -223,10 +297,10 @@ class SpendingTimeWidgetState extends State<SpendingTimeWidget> {
                       onPressed: () {
                         if (stateDate.isTimerRunning == true) {
                           
-                          chageWords();
+                          //chageWords();
                           //widget.controller.pause();
                           //stateDate.setSpendingTimer();
-                          print('ボタンは無効化されました');
+                          //print('ボタンは無効化されました');
                         } else {
                           print('isStartSepedingTimer:${stateDate.isTimerRunning}');
                         
@@ -255,7 +329,7 @@ class SpendingTimeWidgetState extends State<SpendingTimeWidget> {
                 padding: const EdgeInsets.all(24),
                 child: Column(
                   children: [
-                    Text('時間を使う',
+                    Text('時間を費う',
                     style: TextStyle(
                           fontSize: 24.sp,
                           color: Color(0xff5f8d9a),
@@ -405,23 +479,24 @@ class _TopBar_WidgetState extends State<TopBar_Widget> {
         ),
         Container(
           width: _width,
-          height: 20.w,
+          height: 110.h,
           child: Lottie.asset('assets/animation/topWave2.json', fit: BoxFit.cover),
         ),
         Container(
           //color: Colors.amber,
           //width: _width/2, 
           alignment: Alignment.center,
-          margin: EdgeInsets.only( top: 60.h),
-          child: Container( child: Column(
+          margin: EdgeInsets.only( top: 80.h),
+          child: Container( child: Row(
+            mainAxisAlignment:MainAxisAlignment.center,
             children: [
-              Text('TIME BANK',textAlign: TextAlign.center,style: TextStyle(fontSize: 40.sp,fontWeight: FontWeight.bold),),
-              Icon(Icons.savings_outlined,size: 64.h,color: Color(0xfffac172),)
+              Icon(Icons.paid_outlined,size: 62.h,color: Color(0xff5f8d9a),),
+              Text('TIME BANK',textAlign: TextAlign.center,style: TextStyle(color: Color(0xff5f8d9a),fontSize: 56.sp,fontWeight: FontWeight.bold),),
             ],
           ))),
         Container(
           alignment: Alignment.center,
-          margin: EdgeInsets.only(top: _height/5.h),
+          margin: EdgeInsets.only(top: 174.h),
           //color: Colors.amber,
           child: Material(
             borderRadius: BorderRadius.circular(16.h),
@@ -441,27 +516,27 @@ class _TopBar_WidgetState extends State<TopBar_Widget> {
             ),
           ),
         ),
-        Container(//上の横並びのところ
-        //color: Colors.blue,
-          margin: EdgeInsets.only(left: 20.w, right: 20.w, top: _height/20.h),//上のやつ高さ
-          child: Row(
-            //crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: <Widget>[
-              //右上のベルマーク
-              Opacity(
-                opacity: 0.5,
-                child: GestureDetector(
-                  onTap: (){
-                    //押した時の処理
-                    TimerModel.removePrefItems();
-                    print('reset');
-                  },
-                    child: Icon(Icons.notifications, color: Colors.black,size: 30.h,)),
-              ),
-            ],
-          ),
-        ),
+        // Container(//上の横並びのところ
+        // //color: Colors.blue,
+        //   margin: EdgeInsets.only(left: 20.w, right: 20.w, top: _height/20.h),//上のやつ高さ
+        //   child: Row(
+        //     //crossAxisAlignment: CrossAxisAlignment.start,
+        //     mainAxisAlignment: MainAxisAlignment.end,
+        //     children: <Widget>[
+        //       //右上のベルマーク
+        //       Opacity(
+        //         opacity: 0.5,
+        //         child: GestureDetector(
+        //           onTap: (){
+        //             //押した時の処理
+        //             TimerModel.removePrefItems();
+        //             print('reset');
+        //           },
+        //             child: Icon(Icons.notifications, color: Colors.black,size: 30.h,)),
+        //       ),
+        //     ],
+        //   ),
+        // ),
       ],
     );
   }

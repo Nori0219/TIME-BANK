@@ -63,12 +63,13 @@ class _FloatingActionBubbleWidgetState extends State<FloatingActionBubbleWidget>
             titleStyle:TextStyle(fontSize: 16.sp , color: Colors.white),
             onPress: () {
               _animationController.reverse();
-              print('使い方紹介ページへの遷移処理');
+             Navigator.pushNamed(context, '/IntroduceApp');
+              print('使い方紹介ページへの遷移');
             },
           ),
           // Floating action menu item
           Bubble(
-            title:"時間を使う",
+            title:"時間を費う",
             iconColor :Colors.white,
             bubbleColor : Color(0xff5f8d9a),
             icon:Icons.generating_tokens,
