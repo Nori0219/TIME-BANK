@@ -81,6 +81,8 @@ class StopWatchTimerModel extends ChangeNotifier{
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.remove('elapsedSeconds');
     print('sharedPreferencesから削除elapsedSeconds=$elapsedSeconds');
+    stopWatchTimer.clearPresetTime();
+    notifyListeners();
   }
 
   // StopWatchTimerModel() {

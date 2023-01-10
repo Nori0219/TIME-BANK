@@ -388,11 +388,8 @@ class _TopBar_WidgetState extends State<TopBar_Widget> {
                 child: GestureDetector(
                   onTap: (){
                     //押した時の処理
-                    setState(() {
-                      TimerModel.removePrefItems();
-                    });
-                    
-                    print('stop');
+                    TimerModel.removePrefItems();
+                    print('reset');
                   },
                     child: Icon(Icons.notifications, color: Colors.black,size: 30.h,)),
               ),
