@@ -7,16 +7,16 @@ import 'package:neon_circular_timer/neon_circular_timer.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:stop_watch_timer/stop_watch_timer.dart';
-import 'package:timeclock/Pages/fluatingActionBubble.dart';
+import 'package:timeclock/widgets/fluatingActionBubble.dart';
 import 'package:timeclock/clock.dart';
 import 'package:timeclock/provider/providers.dart';
 import '../provider/stopwatchModel.dart';
 import '../provider/stopwatch_model.dart';
+import '../widgets/timer_picker.dart';
 import 'countUpStartButtun.dart';
 import 'countUpStopButtun.dart';
 import 'countUpTimerWidget.dart';
 import 'exampletimer.dart';
-import 'slideCountdownWidget.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -53,9 +53,9 @@ class _HomePageState extends State<HomePage> {
               if (stateDate.currentPageIndex == 0) {
                 return SavingTimeWidget(height: _height, width: _width,);
               } else if(stateDate.currentPageIndex == 1){
-                return SpendingTimeWidget(controller: controller, isReverse: isReverse, stateDate: stateDate);
+                return SpendingTimeWidget(controller: controller, isReverse: isReverse);
               } else if(stateDate.currentPageIndex == 2){
-                return ExampleTimer();
+                return TimerPickerPage();
               } else{
                 //return SavingTimeWidget(height: _height, width: _width);
               }
@@ -63,9 +63,9 @@ class _HomePageState extends State<HomePage> {
           ),
         ],
       ),
-
+    
       floatingActionButton: Container(
-        margin:EdgeInsets.only(bottom: 50.0,right: 30,),
+        margin:EdgeInsets.only(bottom: 50.0.h,right: 30.w,),
         child: FloatingActionBubbleWidget()),
     );
     //将来的にはここに広告
@@ -78,12 +78,12 @@ class SpendingTimeWidget extends StatefulWidget {
     super.key,
     required this.controller,
     required this.isReverse,
-    required this.stateDate,
+    
   });
 
   final CountDownController controller;
   final bool isReverse;
-  final TimerProvider stateDate;
+  
 
   @override
   State<SpendingTimeWidget> createState() => SpendingTimeWidgetState();
@@ -98,13 +98,10 @@ class SpendingTimeWidgetState extends State<SpendingTimeWidget> {
 
     // Provider.of<T>(context) で親Widgetからデータを受け取る
     final  TimerModel = Provider.of<StopWatchTimerModel>(context);
+    final  stateDate = Provider.of<TimerProvider>(context);
 
-    List <String> wordsList = [
-      '息抜きも大切',//豚貯金
-      'まったり空でも眺めましょう',//カフェタイム
-      '目を休めて',
-      '散歩も良いリラックス',
-      'おいしいものでも食べに行きましょう',
+    List <String> wordsList = [      
+      '時間を使用中',
     ];
     var random = new Random();
 
@@ -118,104 +115,163 @@ class SpendingTimeWidgetState extends State<SpendingTimeWidget> {
 
     return Column(
       children: [
-        SizedBox(height: 40,),
-        NeonCircularTimer(
-          onComplete: () {
-            //setCurrentTimer();
-            //controller.restart();
-            widget.stateDate.setSpendingTimer();
-            print('アラーム終了ですよーーーー！！');
-          },
-          width: 240,
-          controller: widget.controller,//カウントsダウン タイマーを制御 (開始、一時停止、再開、再起動)
-          duration: 1800,//秒単位のカウントダウン期間
-          strokeWidth: 16,
-          textFormat:TextFormat.HH_MM_SS,
-          initialDuration:0,//CurrentTimer,//タイマーの最初の経過時間 (秒)
-          isTimerTextShown: true,
-          isReverse:widget.isReverse,//カウントダウンモード
-          isReverseAnimation:widget.isReverse,
-          autoStart:false,
-          neumorphicEffect: true,//ニューモーフィックボーダーを表示
-          outerStrokeColor: Colors.grey.shade100,//カウントダウン ウィジェットの境界線の色
-          innerFillGradient: LinearGradient(colors: [
-            Color(0xffeee3d0),
-            Color(0xfffac172)
-          ]),
-          neonGradient: LinearGradient(colors: [
-            Color(0xffeee3d0),
-            Color(0xfffac172)
-          ]),
-          strokeCap: StrokeCap.round,
-          innerFillColor: Color(0xffFFFEF6),
-          backgroudColor: Colors.grey.shade100,//丸の部分の背景
-          neonColor: Color(0xfffac172),
-          ),
-        Padding(
-          padding: const EdgeInsets.all(40),
-          child: Column(
+        SizedBox(height: 48.h,),
+        
+        AnimatedSwitcher(
+          duration: const Duration(milliseconds: 10000),
+          child: stateDate.hasTimerDuration?
+          Column(
             children: [
-                  AnimatedButton(
-                      height: 80.h,
-                      width: 220.w,
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: widget.stateDate.isStartSepedingTimer?//時間を使うタイマーがスタートしているか
-                      Container(
-                        alignment: Alignment.center,
-                        child: Text(randomWords,
-                        style: TextStyle(
-                            fontSize: 21.sp,
-                            color: Colors.white,
-                            fontWeight: FontWeight.w500,
+              SizedBox(height: 20.h,),
+              NeonCircularTimer(
+                onComplete: () {
+                  
+                  stateDate.setSpendingTimer();
+                  stateDate.setTimerDuration();
+                  //ここでリセットするのが重要
+                  TimerModel.stopWatchTimer.onResetTimer();
+                  print('reset');
+                  print('アラーム終了です');
+                },
+                width: 240.w,
+                controller: widget.controller,//カウントsダウン タイマーを制御 (開始、一時停止、再開、再起動)
+                duration: TimerModel.spendTime,//秒単位のカウントダウン期間
+                strokeWidth: 16,
+                textFormat:TextFormat.HH_MM_SS,
+                initialDuration:0,//CurrentTimer,//タイマーの最初の経過時間 (秒)
+                isTimerTextShown: true,
+                isReverse:widget.isReverse,//カウントダウンモード
+                isReverseAnimation:widget.isReverse,
+                autoStart:false,
+                neumorphicEffect: true,//ニューモーフィックボーダーを表示
+                outerStrokeColor: Colors.grey.shade100,//カウントダウン ウィジェットの境界線の色
+                innerFillGradient: LinearGradient(colors: [
+                  Color(0xffeee3d0),
+                  Color(0xfffac172)
+                ]),
+                neonGradient: LinearGradient(colors: [
+                  Color(0xffeee3d0),
+                  Color(0xfffac172)
+                ]),
+                strokeCap: StrokeCap.round,
+                innerFillColor: Color(0xffFFFEF6),
+                backgroudColor: Colors.grey.shade100,//丸の部分の背景
+                neonColor: Color(0xfffac172),
+                ),
+              //const SizedBox(height: 24),
+              SizedBox(height: 20.h,),
+              Padding(
+                padding:  EdgeInsets.all(24.r),
+                child: Column(
+                  children: [
+                    Text('時間を使う',
+                    style: TextStyle(
+                          fontSize: 24.sp,
+                          color: Color(0xff5f8d9a),
+                          fontWeight: FontWeight.bold,
+                        ),
+                    ),
+                    SizedBox(height: 8.h,),
+                    AnimatedButton(
+                        height: 80.h,
+                        width: 220.w,
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: stateDate.isTimerRunning?//時間を使うタイマーがスタートしているか
+          
+                        Container(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              Icon(
+                                Icons.emoji_food_beverage,
+                                color: Colors.white,
+                                size:32.sp,
+                              ),
+                              SizedBox(width: 8.w),
+                              Text( randomWords,
+                                style: TextStyle(
+                                  fontSize: 24.sp,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            ],
+                          ),
+                        )
+                        :Container(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              Icon(
+                                Icons.emoji_food_beverage,
+                                color: Colors.white,
+                                size:32.sp,
+                              ),
+                              SizedBox(width: 8.w),
+                              Text( 'START',
+                                style: TextStyle(
+                                  fontSize: 32.sp,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            ],
                           ),
                         ),
-                      )
-                      :Container(
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            Icon(
-                              Icons.emoji_food_beverage,
-                              color: Colors.white,
-                              size:32.sp,
-                            ),
-                            SizedBox(width: 8.w),
-                            Text( 'START',
-                              style: TextStyle(
-                                fontSize: 32.sp,
-                                color: Colors.white,
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ),
-                          ],
-                        ),
                       ),
-                    ),
-                    onPressed: () {
-                      if (widget.stateDate.isStartSepedingTimer == true) {
+                      onPressed: () {
+                        if (stateDate.isTimerRunning == true) {
+                          
+                          chageWords();
+                          //widget.controller.pause();
+                          //stateDate.setSpendingTimer();
+                          print('ボタンは無効化されました');
+                        } else {
+                          print('isStartSepedingTimer:${stateDate.isTimerRunning}');
                         
-                        //chageWords();
-                        //controller.pause();
-                        //stateDate.setSpendingTimer();
-                        print('ボタンは無効化されました');
-                      } else {
-                        print('isStartSepedingTimer:${widget.stateDate.isStartSepedingTimer}');
-                        widget.controller.restart();
-                        widget.stateDate.setSpendingTimer();
-                        TimerModel.subtractElapsedSeconds();
-                      }
-                    },
-                    shadowDegree: ShadowDegree.light,
-                    //color: Color(0xffeee3d0),
-                    //color: Color(0xff5f8d9a),
-                    //color: Color(0xffc3c8b0),
-                    color: Color(0xfffac172),
-                    //color: Color(0xfff0ceb5),
-                  ),
+                          widget.controller.start();
+                          
+                          stateDate.setSpendingTimer();
+                          TimerModel.subtractElapsedSeconds();
+                        }
+                      },
+                      shadowDegree: ShadowDegree.light,
+                      color: Color(0xffeee3d0),
+                      //color: Color(0xff5f8d9a),
+                      //color: Color(0xffc3c8b0),
+                      //color: Color(0xfffac172),
+                      //color: Color(0xfff0ceb5),
+                    ),
+                  ],
+                ),
+              ),
             ],
-          ),
+          ):
+          Column(
+            children: [
+              LottieAnimation(),
+              Padding(
+                padding: const EdgeInsets.all(24),
+                child: Column(
+                  children: [
+                    Text('時間を使う',
+                    style: TextStyle(
+                          fontSize: 24.sp,
+                          color: Color(0xff5f8d9a),
+                          fontWeight: FontWeight.bold,
+                        ),
+                    ),
+                    SizedBox(height: 8.h,),
+                    TimerPickerPage(),
+                  ],
+                ),
+              ),
+            ],
+          )
+          ,
         ),
+        
       ],
     );
   }
@@ -254,8 +310,9 @@ class SavingTimeWidget extends StatelessWidget {
     
     return Column(
       children: [
+        SizedBox(height: 48.h,),
         LottieAnimation(),
-        SizedBox(height: _height/16,),
+        SizedBox(height: 24.h,),
         Text('時間を貯める',
         style: TextStyle(
               fontSize: 24.sp,
@@ -263,6 +320,7 @@ class SavingTimeWidget extends StatelessWidget {
               fontWeight: FontWeight.bold,
             ),
         ),
+        SizedBox(height: 8.h,),
         if (TimerModel.isTimerWorking) 
           CountUpStopButtun() 
         else 
@@ -290,6 +348,9 @@ class LottieAnimation extends StatelessWidget {
       'assets/animation/thinking_man.json',
       'assets/animation/stopwatch.json',
       'assets/animation/Mechanical_timer.json',
+      //'assets/animation/PeopleShopping.json',
+      'assets/animation/peopleWithCalendar.json',
+      'assets/animation/peopleWithClock.json',
     ];
     var random = new Random();
     
@@ -343,10 +404,15 @@ class _TopBar_WidgetState extends State<TopBar_Widget> {
           ),
         ),
         Container(
+          width: _width,
+          height: 20.w,
+          child: Lottie.asset('assets/animation/topWave2.json', fit: BoxFit.cover),
+        ),
+        Container(
           //color: Colors.amber,
           //width: _width/2, 
           alignment: Alignment.center,
-          margin: EdgeInsets.only( top: _height/24),
+          margin: EdgeInsets.only( top: 60.h),
           child: Container( child: Column(
             children: [
               Text('TIME BANK',textAlign: TextAlign.center,style: TextStyle(fontSize: 40.sp,fontWeight: FontWeight.bold),),
@@ -355,7 +421,7 @@ class _TopBar_WidgetState extends State<TopBar_Widget> {
           ))),
         Container(
           alignment: Alignment.center,
-          margin: EdgeInsets.only(top: _height/5),
+          margin: EdgeInsets.only(top: _height/5.h),
           //color: Colors.amber,
           child: Material(
             borderRadius: BorderRadius.circular(16.h),
@@ -366,7 +432,7 @@ class _TopBar_WidgetState extends State<TopBar_Widget> {
               width: _width/1.2.w,
               //height: _height/14.h,
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(30.0),
+                borderRadius: BorderRadius.circular(30.0.r),
               ),
               child:  
               Center(
@@ -377,7 +443,7 @@ class _TopBar_WidgetState extends State<TopBar_Widget> {
         ),
         Container(//上の横並びのところ
         //color: Colors.blue,
-          margin: EdgeInsets.only(left: 20.w, right: 20.w, top: _height/20),//上のやつ高さ
+          margin: EdgeInsets.only(left: 20.w, right: 20.w, top: _height/20.h),//上のやつ高さ
           child: Row(
             //crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.end,

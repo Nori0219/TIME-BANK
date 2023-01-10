@@ -7,7 +7,8 @@ class StopWatchTimerModel extends ChangeNotifier{
 
   final isHours = true;
   bool isTimerWorking = false;
-  int elapsedSeconds = 3;
+  int spendTime = 30; //タイマーで使う時間
+  int elapsedSeconds = 0;
 
   StopWatchTimerModel(){
     init();
@@ -24,6 +25,7 @@ class StopWatchTimerModel extends ChangeNotifier{
     print('sharedPreferencesから読み込みelapsedSeconds=$elapsedSeconds');
 
     stopWatchTimer.setPresetSecondTime(elapsedSeconds);
+    
     print('setPresetSecondTime elapsedSeconds = $elapsedSeconds');
 
     notifyListeners();
@@ -66,14 +68,17 @@ class StopWatchTimerModel extends ChangeNotifier{
   }
 
   void subtractElapsedSeconds()async{
-    //30分引く
-    elapsedSeconds = stopWatchTimer.secondTime.value - 30;
-    print('elapsedSecondsから30分引く = $elapsedSeconds');
+    //spendTimeを引く
+    elapsedSeconds = stopWatchTimer.secondTime.value - spendTime;
+    print('elapsedSecondsから$spendTime秒引く = $elapsedSeconds');
 
     SharedPreferences prefs = await SharedPreferences.getInstance();
     // 以下の「stopWatch」がキー名。
     prefs.setInt('elapsedSeconds', elapsedSeconds);
     print('sharedPreferencesに記録elapsedSeconds=$elapsedSeconds');
+    
+    stopWatchTimer.clearPresetTime();
+    stopWatchTimer.setPresetSecondTime(elapsedSeconds);
     notifyListeners();
   }
   // Shared Preferenceのデータを削除する
@@ -100,10 +105,10 @@ class StopWatchTimerModel extends ChangeNotifier{
   //   // _stopWatchTimer.setPresetTime(mSec: 1234);
   // }
 
-  @override
-  void dispose() async {
-    super.dispose();
-    await stopWatchTimer.dispose();
-  }
+  // @override
+  // void dispose() async {
+  //   super.dispose();
+  //   await stopWatchTimer.dispose();
+  // }
   
 }

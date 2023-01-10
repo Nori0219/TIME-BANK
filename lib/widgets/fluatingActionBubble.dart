@@ -4,6 +4,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:timeclock/provider/providers.dart';
 
+import '../provider/stopwatchModel.dart';
+
 class FloatingActionBubbleWidget extends StatefulWidget {
   const FloatingActionBubbleWidget({super.key});
 
@@ -35,7 +37,8 @@ class _FloatingActionBubbleWidgetState extends State<FloatingActionBubbleWidget>
 
     // Provider.of<T>(context) で親Widgetからデータを受け取る
     final  stateDate = Provider.of<TimerProvider>(context);
-
+    final  TimerModel = Provider.of<StopWatchTimerModel>(context);
+    
     return FloatingActionBubble(
         items: <Bubble>[
 
@@ -87,6 +90,7 @@ class _FloatingActionBubbleWidgetState extends State<FloatingActionBubbleWidget>
              // Navigator.push(context, new MaterialPageRoute(builder: (BuildContext context) => MyHomePage()));
               _animationController.reverse();
               stateDate.checkSaving();
+              
             },
           ),
         ],

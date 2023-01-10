@@ -94,42 +94,42 @@ class CountUpStopButtunState extends State<CountUpStopButtun> {
             AnimatedButton(
             height: 80.h,
             width: 220.w,
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Icon(
-                  Icons.add_shopping_cart,
-                  color: Colors.white,
-                  size:32.sp,
+              child: Padding(
+                padding:EdgeInsets.all(8.0.r),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Icon(
+                      Icons.more_time,
+                      color: Colors.white,
+                      size:32.sp,
+                    ),
+                    SizedBox(width: 8.w),
+                    Text(
+                      'STOP',
+                      style: TextStyle(
+                        fontSize: 32.sp,
+                        color: Colors.white,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ],
                 ),
-                SizedBox(width: 8.w),
-                Text(
-                  'STOP',
-                  style: TextStyle(
-                    fontSize: 32.sp,
-                    color: Colors.white,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-              ],
+              ),
+              //onPressed: TimerModel.stopWatchTimer.onStopTimer,
+              onPressed: () {
+                      TimerModel.stopWatchTimer.onStopTimer();
+                      TimerModel.changeTimerMode();
+                      TimerModel.recordElapsedSeconds();
+                      print('stop and change bool');
+                    },
+              shadowDegree: ShadowDegree.light,
+              color: Color(0xffc3c8b0),
+              //color: Color(0xff5f8d9a),
+              //color: Color(0xffc3c8b0),
+              //color: Color(0xfffac172),
+              //color: Color(0xfff0ceb5),
             ),
-          ),
-          //onPressed: TimerModel.stopWatchTimer.onStopTimer,
-          onPressed: () {
-                  TimerModel.stopWatchTimer.onStopTimer();
-                  TimerModel.changeTimerMode();
-                  TimerModel.recordElapsedSeconds();
-                  print('stop and change bool');
-                },
-          shadowDegree: ShadowDegree.light,
-          color: Color(0xffc3c8b0),
-          //color: Color(0xff5f8d9a),
-          //color: Color(0xffc3c8b0),
-          //color: Color(0xfffac172),
-          //color: Color(0xfff0ceb5),
-        ),
             // Padding(
             //   padding: const EdgeInsets.symmetric(horizontal: 4),
             //   child: ElevatedButton(

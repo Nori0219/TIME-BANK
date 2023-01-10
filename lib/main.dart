@@ -48,6 +48,7 @@ class MyApp extends StatelessWidget {
           localizationsDelegates: [ 
             GlobalMaterialLocalizations.delegate,
             GlobalWidgetsLocalizations.delegate, 
+            GlobalCupertinoLocalizations.delegate,
           ], 
           // localeに英語と日本語を登録する
           supportedLocales: [ 

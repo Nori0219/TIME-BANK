@@ -94,13 +94,13 @@ class CountUpStartButtunState extends State<CountUpStartButtun> {
           height: 80.h,
           width: 220.w,
         child: Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: EdgeInsets.all(8.0.r),
           //child: CountUpStartButtun(),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Icon(
-                Icons.add_shopping_cart,
+                Icons.more_time,
                 color: Colors.white,
                 size:32.sp,
               ),
@@ -153,53 +153,53 @@ class CountUpStartButtunState extends State<CountUpStartButtun> {
             //     ),
             //   ),
             // ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 4),
-              child: ElevatedButton(
-                //color: Colors.red,
-                onPressed: TimerModel.stopWatchTimer.onResetTimer,
-                child: const Text(
-                  'Reset',
-                  style: TextStyle(color: Colors.white),
-                ),
-              ),
-            ),
+            // Padding(
+            //   padding: const EdgeInsets.symmetric(horizontal: 4),
+            //   child: ElevatedButton(
+            //     //color: Colors.red,
+            //     onPressed: TimerModel.stopWatchTimer.onResetTimer,
+            //     child: const Text(
+            //       'Reset',
+            //       style: TextStyle(color: Colors.white),
+            //     ),
+            //   ),
+            // ),
           ],
         ),        
-        Padding(
-          padding: const EdgeInsets.all(0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
+        // Padding(
+        //   padding: const EdgeInsets.all(0),
+        //   child: Row(
+        //     mainAxisAlignment: MainAxisAlignment.center,
+        //     children: <Widget>[
               
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 4),
-                child:ElevatedButton(
-                  //color: Colors.pinkAccent,
-                  onPressed: () {
-                    TimerModel.stopWatchTimer.setPresetSecondTime(1);
-                  },
-                  child: const Text(
-                    'Set Second',
-                    style: TextStyle(color: Colors.white),
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
+        //       Padding(
+        //         padding: const EdgeInsets.symmetric(horizontal: 4),
+        //         child:ElevatedButton(
+        //           //color: Colors.pinkAccent,
+        //           onPressed: () {
+        //             TimerModel.stopWatchTimer.setPresetSecondTime(1);
+        //           },
+        //           child: const Text(
+        //             'Set Second',
+        //             style: TextStyle(color: Colors.white),
+        //           ),
+        //         ),
+        //       ),
+        //     ],
+        //   ),
+        // ),
         
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 4),
-          child: ElevatedButton(
-            //color: Colors.pinkAccent,
-            onPressed: TimerModel.stopWatchTimer.clearPresetTime,
-            child: const Text(
-              'Clear PresetTime',
-              style: TextStyle(color: Colors.white),
-            ),
-          ),
-        ),
+        // Padding(
+        //   padding: const EdgeInsets.symmetric(horizontal: 4),
+        //   child: ElevatedButton(
+        //     //color: Colors.pinkAccent,
+        //     onPressed: TimerModel.stopWatchTimer.clearPresetTime,
+        //     child: const Text(
+        //       'Clear PresetTime',
+        //       style: TextStyle(color: Colors.white),
+        //     ),
+        //   ),
+        // ),
       ],
     );
   }

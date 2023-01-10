@@ -1,12 +1,12 @@
 
 import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:slide_countdown/slide_countdown.dart';
 
 
 class TimerProvider extends ChangeNotifier{
-  bool isStartSepedingTimer = false;
+  bool isTimerRunning = false;
+  bool hasTimerDuration = false;
   int currentPageIndex = 0;
   
 
@@ -29,8 +29,16 @@ class TimerProvider extends ChangeNotifier{
   }
 
   void setSpendingTimer() {
-    print('タイマースタート');
+    isTimerRunning = true;
+    //print('タイマースタート');
     notifyListeners();
   }
+
+  void setTimerDuration() {
+    hasTimerDuration = !hasTimerDuration;
+    print('hasTimerDuration = $hasTimerDuration ');
+    notifyListeners();
+  }
+
 
 }
