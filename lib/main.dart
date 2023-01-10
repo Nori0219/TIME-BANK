@@ -3,7 +3,6 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:neon_circular_timer/neon_circular_timer.dart';
 import 'package:provider/provider.dart';
-import 'package:slide_countdown/slide_countdown.dart';
 import 'package:timeclock/Pages/homePage.dart';
 import 'package:timeclock/provider/providers.dart';
 import 'package:timeclock/provider/stopwatchModel.dart';

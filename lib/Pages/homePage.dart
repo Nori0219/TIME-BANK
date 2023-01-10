@@ -8,7 +8,6 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:stop_watch_timer/stop_watch_timer.dart';
 import 'package:timeclock/widgets/fluatingActionBubble.dart';
-import 'package:timeclock/clock.dart';
 import 'package:timeclock/provider/providers.dart';
 import '../provider/stopwatchModel.dart';
 import '../provider/stopwatch_model.dart';

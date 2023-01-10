@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_overboard/flutter_overboard.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:introduction_screen/introduction_screen.dart';
 import 'package:lottie/lottie.dart';
 
 

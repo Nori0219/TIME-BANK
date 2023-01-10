@@ -1,7 +1,7 @@
 
 import 'dart:math';
 import 'package:flutter/material.dart';
-import 'package:slide_countdown/slide_countdown.dart';
+
 
 
 class TimerProvider extends ChangeNotifier{

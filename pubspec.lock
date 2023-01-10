@@ -78,13 +78,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.5"
-  dots_indicator:
-    dependency: transitive
-    description:
-      name: dots_indicator
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "2.1.0"
   fake_async:
     dependency: transitive
     description:
@@ -182,13 +175,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.17.0"
-  introduction_screen:
-    dependency: "direct main"
-    description:
-      name: introduction_screen
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "3.1.2"
   js:
     dependency: transitive
     description:
@@ -404,13 +390,6 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.99"
-  slide_countdown:
-    dependency: "direct main"
-    description:
-      name: slide_countdown
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.4.0"
   source_span:
     dependency: transitive
     description:
@@ -439,13 +418,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.1.0"
-  stream_duration:
-    dependency: transitive
-    description:
-      name: stream_duration
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "3.0.0"
   string_scanner:
     dependency: transitive
     description:
