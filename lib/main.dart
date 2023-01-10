@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:slide_countdown/slide_countdown.dart';
 import 'package:timeclock/Pages/homePage.dart';
 import 'package:timeclock/provider/providers.dart';
+import 'package:timeclock/provider/stopwatchModel.dart';
 import 'package:timeclock/provider/stopwatch_model.dart';
 
 
@@ -18,6 +19,9 @@ void main() {
         ),
         ChangeNotifierProvider<StopWatchModel>( //プロバイダー名
           create: (context) => StopWatchModel(),//プロバイダー名
+        ),
+        ChangeNotifierProvider<StopWatchTimerModel>( //プロバイダー名
+          create: (context) => StopWatchTimerModel(),//プロバイダー名
         ),
       ],
       child: MyApp(),

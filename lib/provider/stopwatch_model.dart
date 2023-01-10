@@ -9,7 +9,7 @@ class StopWatchModel extends ChangeNotifier{
   bool isResetPressed = false;
   bool isStartPressed = false;
   bool isTimerWorking = false;
-  int elapsedSeconds = 0;
+
 
   String stopWatchTimeDisplay = '00:00:00';
   var swatch = Stopwatch();
@@ -19,12 +19,12 @@ class StopWatchModel extends ChangeNotifier{
     _init();
   }
   void _init() async {
-    final pref = await SharedPreferences.getInstance();
-    final stopWatchTimeDisplay= pref.getString('stopWatch')??'00:00:02';
-    final elapsedSeconds = pref.getInt('elapsed_seconds')??0;
+   // final pref = await SharedPreferences.getInstance();
+    //final stopWatchTimeDisplay= pref.getString('stopWatch')??'00:00:02';
+   // final elapsedSeconds = pref.getInt('elapsed_seconds')??0;
     
-    print('stopWatchTimeDisplay=$stopWatchTimeDisplay');
-    print('elapsedSeconds=$elapsedSeconds');
+    //print('stopWatchTimeDisplay=$stopWatchTimeDisplay');
+
     notifyListeners();
   }
   
@@ -43,23 +43,23 @@ class StopWatchModel extends ChangeNotifier{
     notifyListeners();
   }
 
-  startStopWatch(){
-    this.isStopPressed = false;
-    this.isTimerWorking = true;
-    if (elapsedSeconds != 0) {
-      // 読み込んだ秒数を使用して、Durationクラスのインスタンスを作成する
-      final elapsedDuration = Duration(seconds: elapsedSeconds);
-      // 作成したDurationクラスのインスタンスを使用して、ストップウォッチを開始する
-      //watch.start(elapsedDuration);
-    } else {
-      // 保存された経過時間がない場合は、ストップウォッチを通常通り開始する
-      swatch.start();
-    }
-    //swatch.start();
-    startTimer();
-    print('ストップウォッチが実行中かどうか${swatch.isRunning}');
-    notifyListeners();
-  }
+  // startStopWatch(){
+  //   this.isStopPressed = false;
+  //   this.isTimerWorking = true;
+  //   if (elapsedSeconds != 0) {
+  //     // 読み込んだ秒数を使用して、Durationクラスのインスタンスを作成する
+  //     final elapsedDuration = Duration(seconds: elapsedSeconds);
+  //     // 作成したDurationクラスのインスタンスを使用して、ストップウォッチを開始する
+  //     //watch.start(elapsedDuration);
+  //   } else {
+  //     // 保存された経過時間がない場合は、ストップウォッチを通常通り開始する
+  //     swatch.start();
+  //   }
+  //   //swatch.start();
+  //   startTimer();
+  //   print('ストップウォッチが実行中かどうか${swatch.isRunning}');
+  //   notifyListeners();
+  // }
 
 
   stopStopWatch() {
@@ -104,5 +104,7 @@ class StopWatchModel extends ChangeNotifier{
   // Shared Preferenceのデータを削除する
   removePrefItems() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.remove('counter');
+    notifyListeners();
   }
 }

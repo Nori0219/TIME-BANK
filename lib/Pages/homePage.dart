@@ -6,10 +6,16 @@ import 'package:lottie/lottie.dart';
 import 'package:neon_circular_timer/neon_circular_timer.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:stop_watch_timer/stop_watch_timer.dart';
 import 'package:timeclock/Pages/fluatingActionBubble.dart';
 import 'package:timeclock/clock.dart';
 import 'package:timeclock/provider/providers.dart';
+import '../provider/stopwatchModel.dart';
 import '../provider/stopwatch_model.dart';
+import 'countUpStartButtun.dart';
+import 'countUpStopButtun.dart';
+import 'countUpTimerWidget.dart';
+import 'exampletimer.dart';
 import 'slideCountdownWidget.dart';
 
 class HomePage extends StatefulWidget {
@@ -45,13 +51,13 @@ class _HomePageState extends State<HomePage> {
             // },
             child: ((){//即時関数を使えばif文が使える。ただしwidgetを返すにはreturnが必要
               if (stateDate.currentPageIndex == 0) {
-                return SavingTimeWidget(height: _height, width: _width);
+                return SavingTimeWidget(height: _height, width: _width,);
               } else if(stateDate.currentPageIndex == 1){
                 return SpendingTimeWidget(controller: controller, isReverse: isReverse, stateDate: stateDate);
               } else if(stateDate.currentPageIndex == 2){
-                return ExampleControlDuration();
+                return ExampleTimer();
               } else{
-                return SavingTimeWidget(height: _height, width: _width);
+                //return SavingTimeWidget(height: _height, width: _width);
               }
             })(),
           ),
@@ -66,6 +72,7 @@ class _HomePageState extends State<HomePage> {
   }
 }
 
+
 class SpendingTimeWidget extends StatefulWidget {
   const SpendingTimeWidget({
     super.key,
@@ -79,12 +86,18 @@ class SpendingTimeWidget extends StatefulWidget {
   final TimerProvider stateDate;
 
   @override
-  State<SpendingTimeWidget> createState() => _SpendingTimeWidgetState();
+  State<SpendingTimeWidget> createState() => SpendingTimeWidgetState();
 }
 
-class _SpendingTimeWidgetState extends State<SpendingTimeWidget> {
+class SpendingTimeWidgetState extends State<SpendingTimeWidget> {
+
+  
+  
   @override
   Widget build(BuildContext context) {
+
+    // Provider.of<T>(context) で親Widgetからデータを受け取る
+    final  TimerModel = Provider.of<StopWatchTimerModel>(context);
 
     List <String> wordsList = [
       '息抜きも大切',//豚貯金
@@ -115,7 +128,7 @@ class _SpendingTimeWidgetState extends State<SpendingTimeWidget> {
           },
           width: 240,
           controller: widget.controller,//カウントsダウン タイマーを制御 (開始、一時停止、再開、再起動)
-          duration: 180,//秒単位のカウントダウン期間
+          duration: 1800,//秒単位のカウントダウン期間
           strokeWidth: 16,
           textFormat:TextFormat.HH_MM_SS,
           initialDuration:0,//CurrentTimer,//タイマーの最初の経過時間 (秒)
@@ -182,14 +195,15 @@ class _SpendingTimeWidgetState extends State<SpendingTimeWidget> {
                     onPressed: () {
                       if (widget.stateDate.isStartSepedingTimer == true) {
                         
-                        chageWords();
+                        //chageWords();
                         //controller.pause();
                         //stateDate.setSpendingTimer();
-                        //print('ボタンは無効化されました');
+                        print('ボタンは無効化されました');
                       } else {
                         print('isStartSepedingTimer:${widget.stateDate.isStartSepedingTimer}');
                         widget.controller.restart();
                         widget.stateDate.setSpendingTimer();
+                        TimerModel.subtractElapsedSeconds();
                       }
                     },
                     shadowDegree: ShadowDegree.light,
@@ -216,7 +230,7 @@ class SavingTimeWidget extends StatelessWidget {
 
   final double _height;
   final double _width;
-
+  
   
 
   @override
@@ -224,13 +238,20 @@ class SavingTimeWidget extends StatelessWidget {
     final  stateDate = Provider.of<TimerProvider>(context);
     final  model = Provider.of<StopWatchModel>(context);
 
+    //Provider.of<T>(context) で親Widgetからデータを受け取る
+    final  TimerModel = Provider.of<StopWatchTimerModel>(context);
+
+
+    CountUpTimerPageState countUpTimer = CountUpTimerPageState();
     // setPrefItems() async {
     // SharedPreferences prefs = await SharedPreferences.getInstance();
     // // 以下の「stopWatch」がキー名。
     // prefs.setString('stopWatch', model.stopWatchTimeDisplay);
     // print('sharedPreferencesに記録stopWatchTimeDisplay=${model.stopWatchTimeDisplay}');
     // }
+    // Provider.of<T>(context) で親Widgetからデータを受け取る
 
+    
     return Column(
       children: [
         LottieAnimation(),
@@ -242,78 +263,10 @@ class SavingTimeWidget extends StatelessWidget {
               fontWeight: FontWeight.bold,
             ),
         ),
-        model.isTimerWorking?
-        AnimatedButton(
-            height: 80.h,
-            width: 220.w,
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Icon(
-                  Icons.add_shopping_cart,
-                  color: Colors.white,
-                  size:32.sp,
-                ),
-                SizedBox(width: 8.w),
-                Text(
-                  'STOP',
-                  style: TextStyle(
-                    fontSize: 32.sp,
-                    color: Colors.white,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-              ],
-            ),
-          ),
-          onPressed: () {
-            model.stopStopWatch();
-            model.setPrefItems();
-          },
-          shadowDegree: ShadowDegree.light,
-          color: Color(0xffc3c8b0),
-          //color: Color(0xff5f8d9a),
-          //color: Color(0xffc3c8b0),
-          //color: Color(0xfffac172),
-          //color: Color(0xfff0ceb5),
-        )
-        :AnimatedButton(
-          height: 80.h,
-          width: 220.w,
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Icon(
-                Icons.add_shopping_cart,
-                color: Colors.white,
-                size:32.sp,
-              ),
-              SizedBox(width: 8.w),
-              Text(
-                'START',
-                style: TextStyle(
-                  fontSize: 32.sp,
-                  color: Colors.white,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-            ],
-          ),
-        ),
-        onPressed: () {
-          model.startStopWatch();
-        },
-        shadowDegree: ShadowDegree.light,
-        color: Color(0xffeee3d0),
-        //color: Color(0xff5f8d9a),
-        //color: Color(0xffc3c8b0),
-        //color: Color(0xfffac172),
-        //color: Color(0xfff0ceb5),
-      ),
+        if (TimerModel.isTimerWorking) 
+          CountUpStopButtun() 
+        else 
+          CountUpStartButtun()//startbuttun
       ],
     );
   }
@@ -329,7 +282,7 @@ class LottieAnimation extends StatelessWidget {
     var _height = MediaQuery.of(context).size.height;
     var  _width = MediaQuery.of(context).size.width;
 
-    String LottieImage ='assets/animation/saving_pig.json'; //デフォルトの画像
+    //String LottieImage ='assets/animation/saving_pig.json'; //デフォルトの画像
 
     final LottieImages = [
       'assets/animation/saving_pig.json',//豚貯金
@@ -342,10 +295,7 @@ class LottieAnimation extends StatelessWidget {
     
     var randomElem = LottieImages[random.nextInt(LottieImages.length)];
     
-    void changeLotiie(){
-      LottieImage = randomElem;
-    }
-
+    
     return Container(
       //color: Colors.amberAccent,
       height:_height*0.3.h,
@@ -363,13 +313,15 @@ class TopBar_Widget extends StatefulWidget {
   @override
   State<TopBar_Widget> createState() => _TopBar_WidgetState();
 }
-
 class _TopBar_WidgetState extends State<TopBar_Widget> {
 
 
 
   @override
   Widget build(BuildContext context) {
+    // Provider.of<T>(context) で親Widgetからデータを受け取る
+    final  TimerModel = Provider.of<StopWatchTimerModel>(context);
+
     var _height = MediaQuery.of(context).size.height;
     var  _width = MediaQuery.of(context).size.width;
   
@@ -418,7 +370,7 @@ class _TopBar_WidgetState extends State<TopBar_Widget> {
               ),
               child:  
               Center(
-                child: SlideCountdownWidget(),
+                child: CountUpTimerPage(),
               ),
             ),
           ),
@@ -436,6 +388,10 @@ class _TopBar_WidgetState extends State<TopBar_Widget> {
                 child: GestureDetector(
                   onTap: (){
                     //押した時の処理
+                    setState(() {
+                      TimerModel.removePrefItems();
+                    });
+                    
                     print('stop');
                   },
                     child: Icon(Icons.notifications, color: Colors.black,size: 30.h,)),
