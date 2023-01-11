@@ -460,7 +460,6 @@ class _TopBar_WidgetState extends State<TopBar_Widget> {
     var  _width = MediaQuery.of(context).size.width;
   
     return Stack(
-      //alignment: AlignmentDirectional.center,
       children: <Widget>[
         Positioned(
           child: Container(
@@ -482,17 +481,10 @@ class _TopBar_WidgetState extends State<TopBar_Widget> {
           child: Lottie.asset('assets/animation/topWave2.json', fit: BoxFit.cover),
         ),
         Container(
-          //color: Colors.amber,
-          //width: _width/2, 
+          //color: Colors.amberAccent,
           alignment: Alignment.center,
-          margin: EdgeInsets.only( top: 80.h),
-          child: Container( child: Row(
-            mainAxisAlignment:MainAxisAlignment.center,
-            children: [
-              Icon(Icons.paid_outlined,size: 62.h,color: Color(0xff5f8d9a),),
-              Text('TIME BANK',textAlign: TextAlign.center,style: TextStyle(color: Color(0xff5f8d9a),fontSize: 56.sp,fontWeight: FontWeight.bold),),
-            ],
-          ))),
+          margin: EdgeInsets.only( top: 50.h,left: 20.w, right: 20.w),
+          child: Image.asset('assets/icon/TimeBankアプリテーマ日本語無し.png')),
         Container(
           alignment: Alignment.center,
           margin: EdgeInsets.only(top: 174.h),

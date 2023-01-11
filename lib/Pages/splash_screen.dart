@@ -67,11 +67,10 @@ class SplashScreenState extends State<AnimatedSplashScreen>
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
                Image.asset(
-                'assets/icon/ranking.png',
-                width: animation.value * 250,
-                height: animation.value * 250,
+                'assets/icon/ アイコンTIMEBANK.png',
+                width: animation.value * 200,
+                height: animation.value * 200,
               ),
-              const Text('text')
             ],
           ),
           // Column(

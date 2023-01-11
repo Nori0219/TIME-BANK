@@ -48,6 +48,12 @@ dependencies:
   intl: ^0.17.0
   flutter_overboard: ^3.1.1
   google_fonts: ^3.0.1
+  flutter_launcher_icons: ^0.11.0
+
+flutter_icons:   
+  android: true  
+  ios: true     
+  image_path: "assets/icon/ アイコンTIMEBANK.png" # アプリのアイコン
 
 dev_dependencies:
   flutter_test:
@@ -76,6 +82,8 @@ flutter:
     - assets/icon/
     - assets/animation/
     - assets/image/
+    - assets/icon/TimeBankアプリテーマ日本語無し.png
+    - assets/icon/TimeBankアプリテーマ.png
 
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg

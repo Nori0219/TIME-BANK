@@ -7,7 +7,6 @@ import 'package:timeclock/Pages/homePage.dart';
 import 'package:timeclock/provider/providers.dart';
 import 'package:timeclock/provider/stopwatchModel.dart';
 import 'package:timeclock/provider/stopwatch_model.dart';
-
 import 'Pages/introduction_page.dart';
 import 'Pages/splash_screen.dart';
 
@@ -45,7 +44,7 @@ class MyApp extends StatelessWidget {
       builder: (context , child) {
 
         return MaterialApp(
-          //title: 'Flutter Demo',
+          debugShowCheckedModeBanner: false,
           localizationsDelegates: const[ 
             GlobalMaterialLocalizations.delegate,
             GlobalWidgetsLocalizations.delegate, 
