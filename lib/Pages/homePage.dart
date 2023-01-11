@@ -67,7 +67,7 @@ class _HomePageState extends State<HomePage> {
       ),
     
       floatingActionButton: Container(
-        margin:EdgeInsets.only(bottom: 50.0.h,right: 30.w,),
+        margin:EdgeInsets.only(bottom: 50.0.h,right: 10.w,),
         child: FloatingActionBubbleWidget()),
     );
     //将来的にはここに広告
@@ -466,7 +466,7 @@ class _TopBar_WidgetState extends State<TopBar_Widget> {
             child: Center(
             child: Container(
               //width:  double.infinity,
-              height: _height / 3.h,
+              height: 310.h,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.vertical(bottom: Radius.circular(48.r),),
                 color: Color(0xffc3c8b0),
