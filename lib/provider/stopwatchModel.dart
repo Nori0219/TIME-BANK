@@ -3,14 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:stop_watch_timer/stop_watch_timer.dart';
 
-class StopWatchTimerModel extends ChangeNotifier{
-
+class StopWatchTimerModel extends ChangeNotifier {
   final isHours = true;
   bool isTimerWorking = false;
   int spendTime = 30; //タイマーで使う時間
   int elapsedSeconds = 0;
 
-  StopWatchTimerModel(){
+  StopWatchTimerModel() {
     init();
   }
   void init() {
@@ -21,23 +20,21 @@ class StopWatchTimerModel extends ChangeNotifier{
   //sharedPreferencesから読み込みPresetSecondTimeを実行する
   void setElapsedSeconds() async {
     final pref = await SharedPreferences.getInstance();
-    final elapsedSeconds = pref.getInt('elapsedSeconds')??0;
+    final elapsedSeconds = pref.getInt('elapsedSeconds') ?? 0;
     print('sharedPreferencesから読み込みelapsedSeconds=$elapsedSeconds');
 
     stopWatchTimer.setPresetSecondTime(elapsedSeconds);
-    
+
     print('setPresetSecondTime elapsedSeconds = $elapsedSeconds');
 
     notifyListeners();
   }
-  
 
-  void changeTimerMode(){
-    this.isTimerWorking =! isTimerWorking;
+  void changeTimerMode() {
+    this.isTimerWorking = !isTimerWorking;
     print('changeTimerMode isTimerWorking=$isTimerWorking');
     notifyListeners();
   }
-
 
   final StopWatchTimer stopWatchTimer = StopWatchTimer(
     mode: StopWatchMode.countUp,
@@ -56,7 +53,7 @@ class StopWatchTimerModel extends ChangeNotifier{
   final _scrollController = ScrollController();
   //final elapsedSeconds = 0;
 
-  void recordElapsedSeconds()async{
+  void recordElapsedSeconds() async {
     elapsedSeconds = stopWatchTimer.secondTime.value;
     print('elapsedSeconds = $elapsedSeconds');
 
@@ -67,7 +64,7 @@ class StopWatchTimerModel extends ChangeNotifier{
     notifyListeners();
   }
 
-  void subtractElapsedSeconds()async{
+  void subtractElapsedSeconds() async {
     //spendTimeを引く
     elapsedSeconds = stopWatchTimer.secondTime.value - spendTime;
     print('elapsedSecondsから$spendTime秒引く = $elapsedSeconds');
@@ -76,11 +73,12 @@ class StopWatchTimerModel extends ChangeNotifier{
     // 以下の「stopWatch」がキー名。
     prefs.setInt('elapsedSeconds', elapsedSeconds);
     print('sharedPreferencesに記録elapsedSeconds=$elapsedSeconds');
-    
+
     stopWatchTimer.clearPresetTime();
     stopWatchTimer.setPresetSecondTime(elapsedSeconds);
     notifyListeners();
   }
+
   // Shared Preferenceのデータを削除する
   removePrefItems() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -110,5 +108,4 @@ class StopWatchTimerModel extends ChangeNotifier{
   //   super.dispose();
   //   await stopWatchTimer.dispose();
   // }
-  
 }

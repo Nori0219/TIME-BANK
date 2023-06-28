@@ -1,8 +1,8 @@
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:timeclock/provider/stopwatchModel.dart';
+import 'package:timeclock/repository/notifer.dart';
 
 import '../provider/providers.dart';
 import '../utils/time_picker_utils.dart';
@@ -14,9 +14,6 @@ class TimerPickerPage extends StatefulWidget {
 }
 
 class _TimerPickerPageState extends State<TimerPickerPage> {
-
-  
-    
   Duration duration = Duration(hours: 0, minutes: 3, seconds: 0);
 
   String formatDuration(Duration duration) {
@@ -29,37 +26,40 @@ class _TimerPickerPageState extends State<TimerPickerPage> {
   }
 
   formatSelectSeconds(Duration duration) {
-    int SelectSeconds = duration.inSeconds.remainder(60) + duration.inMinutes.remainder(60)* 60 + duration.inHours * 3600; 
+    int SelectSeconds = duration.inSeconds.remainder(60) +
+        duration.inMinutes.remainder(60) * 60 +
+        duration.inHours * 3600;
     return SelectSeconds;
   }
 
   @override
   Widget build(BuildContext context) {
     // Provider.of<T>(context) で親Widgetからデータを受け取る
-    final  TimerModel = Provider.of<StopWatchTimerModel>(context);
-    final  stateDate = Provider.of<TimerProvider>(context);
+    final TimerModel = Provider.of<StopWatchTimerModel>(context);
+    final stateDate = Provider.of<TimerProvider>(context);
     return Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              ButtonWidget(
-                onClicked: () => Utils.showSheet(
-                  context,
-                  child: buildTimePicker(),
-                  onClicked: () {
-                    final value = formatDuration(duration);
-                    final SelectSeconds = formatSelectSeconds(duration);
-                    TimerModel.spendTime = SelectSeconds;//pickerで選んだ時間でタイマーをセットする
-                    print('Set spendTime : spendTime = ${TimerModel.spendTime}');
-                    stateDate.setTimerDuration();// hasTimerDuration != hasTimerDuration
-                    // Utils.showSnackBar(context, 'Select "$value" "$SelectSeconds"');
-                    Navigator.pop(context);
-                  },
-                ),
-              ),
-            ],
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          ButtonWidget(
+            onClicked: () => Utils.showSheet(
+              context,
+              child: buildTimePicker(),
+              onClicked: () {
+                final value = formatDuration(duration);
+                final SelectSeconds = formatSelectSeconds(duration);
+                TimerModel.spendTime = SelectSeconds; //pickerで選んだ時間でタイマーをセットする
+                print('Set spendTime : spendTime = ${TimerModel.spendTime}');
+                stateDate
+                    .setTimerDuration(); // hasTimerDuration != hasTimerDuration
+                // Utils.showSnackBar(context, 'Select "$value" "$SelectSeconds"');
+                Navigator.pop(context);
+              },
+            ),
           ),
-      );
+        ],
+      ),
+    );
   }
 
   Widget buildTimePicker() => SizedBox(
