@@ -52,6 +52,7 @@ dependencies:
   in_app_review: ^2.0.6
   flutter_ringtone_player: ^3.2.0
   flutter_local_notifications: ^14.1.1
+  awesome_dialog: ^3.1.0
 
 flutter_icons:   
   android: true  

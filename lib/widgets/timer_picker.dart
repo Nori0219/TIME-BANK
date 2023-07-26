@@ -67,7 +67,7 @@ class _TimerPickerPageState extends State<TimerPickerPage> {
         child: CupertinoTimerPicker(
           initialTimerDuration: duration,
           mode: CupertinoTimerPickerMode.hms,
-          minuteInterval: 3,
+          minuteInterval: 1,
           secondInterval: 1,
           onTimerDurationChanged: (duration) =>
               setState(() => this.duration = duration),

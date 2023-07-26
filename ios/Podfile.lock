@@ -8,6 +8,8 @@ PODS:
     - Flutter
   - path_provider_ios (0.0.1):
     - Flutter
+  - rive_common (0.0.1):
+    - Flutter
   - shared_preferences_ios (0.0.1):
     - Flutter
   - url_launcher_ios (0.0.1):
@@ -19,6 +21,7 @@ DEPENDENCIES:
   - flutter_ringtone_player (from `.symlinks/plugins/flutter_ringtone_player/ios`)
   - in_app_review (from `.symlinks/plugins/in_app_review/ios`)
   - path_provider_ios (from `.symlinks/plugins/path_provider_ios/ios`)
+  - rive_common (from `.symlinks/plugins/rive_common/ios`)
   - shared_preferences_ios (from `.symlinks/plugins/shared_preferences_ios/ios`)
   - url_launcher_ios (from `.symlinks/plugins/url_launcher_ios/ios`)
 
@@ -33,6 +36,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/in_app_review/ios"
   path_provider_ios:
     :path: ".symlinks/plugins/path_provider_ios/ios"
+  rive_common:
+    :path: ".symlinks/plugins/rive_common/ios"
   shared_preferences_ios:
     :path: ".symlinks/plugins/shared_preferences_ios/ios"
   url_launcher_ios:
@@ -44,6 +49,7 @@ SPEC CHECKSUMS:
   flutter_ringtone_player: 15eba85187230b87b2512f0e1b92225618bc03e7
   in_app_review: 318597b3a06c22bb46dc454d56828c85f444f99d
   path_provider_ios: 14f3d2fd28c4fdb42f44e0f751d12861c43cee02
+  rive_common: 8a159d68033a8b073e5853acc50f03aa486a2888
   shared_preferences_ios: 548a61f8053b9b8a49ac19c1ffbc8b92c50d68ad
   url_launcher_ios: 08a3dfac5fb39e8759aeb0abbd5d9480f30fc8b4
 

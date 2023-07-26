@@ -1,6 +1,8 @@
 import 'dart:io';
 
+import 'package:animated_button/animated_button.dart' as animated_button;
 import 'package:animated_button/animated_button.dart';
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'dart:math';
@@ -14,7 +16,6 @@ import 'package:timeclock/widgets/fluatingActionBubble.dart';
 import 'package:timeclock/provider/providers.dart';
 import '../provider/stopwatchModel.dart';
 import '../provider/stopwatch_model.dart';
-import '../repository/alerm_timer.dart';
 import '../repository/notifer.dart';
 import '../repository/review_helper.dart';
 import '../widgets/timer_picker.dart';
@@ -162,7 +163,7 @@ class Setting extends StatelessWidget {
         SizedBox(
           height: 24.h,
         ),
-        AnimatedButton(
+        animated_button.AnimatedButton(
           height: 60.h,
           width: 180.w,
           child: Padding(
@@ -260,42 +261,20 @@ class SpendingTimeWidgetState extends State<SpendingTimeWidget> {
                         //ここでリセットするのが重要
                         TimerModel.stopWatchTimer.onResetTimer();
                         print('reset');
-                        print('アラーム終了です');
-                        WidgetsBinding.instance.addPostFrameCallback((_) {
-                          //Alarm alarm = Alarm();
-                          //alarm.start(); // ERROLER: Unhandled Exception: MissingPluginException(No implementation found for method play on channel flutter_ringtone_player)
-                          showDialog(
-                              context: context,
-                              barrierDismissible:
-                                  false, // ダイアログの外をタップしてダイアログを閉じれないように
-                              builder: (BuildContext context) {
-                                return AlertDialog(
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(16.r),
-                                  ),
-                                  title: Text(
-                                    'Time UP!',
-                                    textAlign: TextAlign.center,
-                                  ),
-                                  content: Text(
-                                    'タイマーが終了しました！',
-                                    textAlign: TextAlign.center,
-                                  ),
-                                  actions: <Widget>[
-                                    TextButton(
-                                      child: Text('閉じる'),
-                                      onPressed: () {
-                                        //alarm.stop();
-                                        Navigator.of(context)
-                                            .pop(); // これをやらないとダイアログが閉じない
-                                        ReviewHelper.showReviewDialog(
-                                            context); //アプリレビュー依頼のダイアログ
-                                      },
-                                    ),
-                                  ],
-                                );
-                              });
-                        });
+                        print('アラーム終了');
+                        AwesomeDialog(
+                          context: context,
+
+                          dialogType: DialogType.success,
+                          animType: AnimType.rightSlide,
+                          title: "Time's Up!",
+                          // desc: 'タイマーが終了しました！',
+                          btnOkText: 'OK',
+                          btnOkOnPress: () {
+                            //アプリレビュー依頼のダイアログを表示
+                            ReviewHelper.showReviewDialog(context);
+                          },
+                        )..show();
                       },
                       width: 240.w,
                       controller:
@@ -339,7 +318,7 @@ class SpendingTimeWidgetState extends State<SpendingTimeWidget> {
                           SizedBox(
                             height: 8.h,
                           ),
-                          AnimatedButton(
+                          animated_button.AnimatedButton(
                             height: 80.h,
                             width: 220.w,
                             child: Padding(
