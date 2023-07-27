@@ -7,15 +7,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'dart:math';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:lottie/lottie.dart';
 import 'package:neon_circular_timer/neon_circular_timer.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:stop_watch_timer/stop_watch_timer.dart';
+import 'package:timeclock/repository/ad_helper.dart';
 import 'package:timeclock/widgets/fluatingActionBubble.dart';
 import 'package:timeclock/provider/providers.dart';
 import '../provider/stopwatchModel.dart';
 import '../provider/stopwatch_model.dart';
+import '../repository/BannerAdWidget.dart';
 import '../repository/notifer.dart';
 import '../repository/review_helper.dart';
 import '../widgets/timer_picker.dart';
@@ -50,7 +53,7 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
-  //通知の許可
+  //通知の許可s
   Future<void> _requestPermissions() async {
     if (Platform.isIOS || Platform.isMacOS) {
       await flutterLocalNotificationsPlugin
@@ -91,29 +94,47 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       body: Column(
         children: [
-          TopBar_Widget(),
-          AnimatedSwitcher(
-            duration: const Duration(milliseconds: 800),
-            // transitionBuilder: (Widget child, Animation<double> animation) {
-            //   return ScaleTransition(scale: animation, child: child);
-            // },
-            child: (() {
-              //即時関数を使えばif文が使える。ただしwidgetを返すにはreturnが必要
-              if (stateDate.currentPageIndex == 0) {
-                return SavingTimeWidget(
-                  height: _height,
-                  width: _width,
-                );
-              } else if (stateDate.currentPageIndex == 1) {
-                return SpendingTimeWidget(
-                    controller: controller, isReverse: isReverse);
-              } else if (stateDate.currentPageIndex == 2) {
-                return Setting();
-              } else {
-                //return SavingTimeWidget(height: _height, width: _width);
-              }
-            })(),
+          Expanded(
+            child: Column(
+              children: [
+                TopBar_Widget(),
+                AnimatedSwitcher(
+                  duration: const Duration(milliseconds: 800),
+                  child: (() {
+                    //即時関数を使えばif文が使える。ただしwidgetを返すにはreturnが必要
+                    if (stateDate.currentPageIndex == 0) {
+                      return SavingTimeWidget(
+                        height: _height,
+                        width: _width,
+                      );
+                    } else if (stateDate.currentPageIndex == 1) {
+                      return SpendingTimeWidget(
+                          controller: controller, isReverse: isReverse);
+                    } else if (stateDate.currentPageIndex == 2) {
+                      return Setting();
+                    } else {
+                      //return SavingTimeWidget(height: _height, width: _width);
+                    }
+                  })(),
+                ),
+              ],
+            ),
           ),
+          //AdMobバナー
+          BannerAdWidget()
+
+          // Container(
+          //   alignment: Alignment.center,
+          //   width: AdmobHelper.getBannerAd().size.width.toDouble(),
+          //   height: AdmobHelper.getBannerAd().size.height.toDouble(),
+          //   child:
+          //       // Container(
+          //       //   color: Colors.amberAccent,
+          //       // ),
+          //       AdWidget(
+          //     ad: AdmobHelper.getBannerAd()..load(),
+          //   ),
+          // ),
         ],
       ),
       floatingActionButton: Container(
@@ -273,6 +294,7 @@ class SpendingTimeWidgetState extends State<SpendingTimeWidget> {
                           btnOkOnPress: () {
                             //アプリレビュー依頼のダイアログを表示
                             ReviewHelper.showReviewDialog(context);
+                            print("interstitialAdWidget.showAd();を実行します");
                           },
                         )..show();
                       },

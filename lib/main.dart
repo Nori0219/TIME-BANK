@@ -8,10 +8,16 @@ import 'package:timeclock/Pages/homePage.dart';
 import 'package:timeclock/provider/providers.dart';
 import 'package:timeclock/provider/stopwatchModel.dart';
 import 'package:timeclock/provider/stopwatch_model.dart';
+import 'package:timeclock/repository/ad_helper.dart';
 import 'Pages/introduction_page.dart';
 import 'Pages/splash_screen.dart';
 
 void main() {
+  print("mainが実行");
+  // //AdMobの初期化処理
+  WidgetsFlutterBinding.ensureInitialized();
+  AdmobHelper.initialization();
+
   runApp(
     MultiProvider(
       providers: [

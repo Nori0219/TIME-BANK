@@ -52,5 +52,10 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+	<!-- GoogleAdMobのIDを設定する
+	テストID :ca-app-pub-3940256099942544~1458002511
+	本番ID：ca-app-pub-2758102039369928~6434247807-->
+	<key>GADApplicationIdentifier</key>
+	<string>ca-app-pub-2758102039369928~6434247807</string>
 </dict>
 </plist>
