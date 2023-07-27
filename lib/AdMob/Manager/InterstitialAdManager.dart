@@ -11,8 +11,13 @@ class InterstitialAdManager implements InterstitialAdLoadCallback {
     print("interstitialAd()が呼ばれました");
     InterstitialAd.load(
       adUnitId: Platform.isAndroid
-          ? 'ca-app-pub-3940256099942544/4411468910'
-          : 'ca-app-pub-3940256099942544/5135589807',
+          //テスト用-動画
+          // ? 'ca-app-pub-3940256099942544/4411468910'
+          // : 'ca-app-pub-3940256099942544/5135589807',
+
+          //本番用 ca-app-pub-2758102039369928/4149048556
+          ? 'ca-app-pub-2758102039369928/4149048556' //未取得のためiPhoneと同じ
+          : 'ca-app-pub-2758102039369928/4149048556',
       request: AdRequest(),
       adLoadCallback: InterstitialAdLoadCallback(
         onAdLoaded: (ad) {

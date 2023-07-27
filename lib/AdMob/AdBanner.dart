@@ -15,8 +15,14 @@ class AdBanner extends StatelessWidget {
         size: size,
         // 広告ユニットID
         adUnitId: Platform.isAndroid
-            ? 'ca-app-pub-3940256099942544/6300978111'
-            : 'ca-app-pub-3940256099942544/2934735716',
+            //テスト用
+            // ? 'ca-app-pub-3940256099942544/6300978111'
+            // : 'ca-app-pub-3940256099942544/2934735716',
+
+            //本番用 ca-app-pub-2758102039369928/4263697263
+            ? 'ca-app-pub-2758102039369928/4263697263' //未取得のためiPhoneと同じ
+            : 'ca-app-pub-2758102039369928/4263697263',
+
         // イベントのコールバック
         listener: BannerAdListener(
           onAdLoaded: (Ad ad) => print('BannerAdAd loaded.'),
