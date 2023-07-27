@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:neon_circular_timer/neon_circular_timer.dart';
 import 'package:provider/provider.dart';
 import 'package:timeclock/Pages/homePage.dart';
 import 'package:timeclock/provider/providers.dart';
 import 'package:timeclock/provider/stopwatchModel.dart';
 import 'package:timeclock/provider/stopwatch_model.dart';
-import 'package:timeclock/repository/ad_helper.dart';
 import 'Pages/introduction_page.dart';
 import 'Pages/splash_screen.dart';
 
@@ -16,7 +16,7 @@ void main() {
   print("mainが実行");
   // //AdMobの初期化処理
   WidgetsFlutterBinding.ensureInitialized();
-  AdmobHelper.initialization();
+  MobileAds.instance.initialize();
 
   runApp(
     MultiProvider(

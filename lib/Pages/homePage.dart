@@ -13,12 +13,12 @@ import 'package:neon_circular_timer/neon_circular_timer.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:stop_watch_timer/stop_watch_timer.dart';
-import 'package:timeclock/repository/ad_helper.dart';
 import 'package:timeclock/widgets/fluatingActionBubble.dart';
 import 'package:timeclock/provider/providers.dart';
+import '../AdMob/AdBanner.dart';
+import '../AdMob/Manager/InterstitialAdManager.dart';
 import '../provider/stopwatchModel.dart';
 import '../provider/stopwatch_model.dart';
-import '../repository/BannerAdWidget.dart';
 import '../repository/notifer.dart';
 import '../repository/review_helper.dart';
 import '../widgets/timer_picker.dart';
@@ -38,11 +38,17 @@ class _HomePageState extends State<HomePage> {
   final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
       FlutterLocalNotificationsPlugin();
 
+  //AdMobの表示用
+  InterstitialAdManager interstitialAdManager = InterstitialAdManager();
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     _init();
+
+    //AdMobの表示用
+    interstitialAdManager.interstitialAd();
   }
 
   Future _init() async {
@@ -117,24 +123,19 @@ class _HomePageState extends State<HomePage> {
                     }
                   })(),
                 ),
+                //AdMob: interstitialAdの表示確認用
+                // ElevatedButton(
+                //     onPressed: () {
+                //       interstitialAdManager.showInterstitialAd();
+                //       print("タップしたようん");
+                //       //interstitialAdManager.interstitialAd();
+                //     },
+                //     child: Text("インステ広告"))
               ],
             ),
           ),
           //AdMobバナー
-          BannerAdWidget()
-
-          // Container(
-          //   alignment: Alignment.center,
-          //   width: AdmobHelper.getBannerAd().size.width.toDouble(),
-          //   height: AdmobHelper.getBannerAd().size.height.toDouble(),
-          //   child:
-          //       // Container(
-          //       //   color: Colors.amberAccent,
-          //       // ),
-          //       AdWidget(
-          //     ad: AdmobHelper.getBannerAd()..load(),
-          //   ),
-          // ),
+          AdBanner(size: AdSize.banner)
         ],
       ),
       floatingActionButton: Container(
@@ -144,7 +145,6 @@ class _HomePageState extends State<HomePage> {
           ),
           child: FloatingActionBubbleWidget()),
     );
-    //将来的にはここに広告
   }
 }
 
@@ -241,6 +241,16 @@ class SpendingTimeWidget extends StatefulWidget {
 }
 
 class SpendingTimeWidgetState extends State<SpendingTimeWidget> {
+  InterstitialAdManager interstitialAdManager = InterstitialAdManager();
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    //AdMobをロード
+    interstitialAdManager.interstitialAd();
+  }
+
   @override
   Widget build(BuildContext context) {
     // Provider.of<T>(context) で親Widgetからデータを受け取る
@@ -291,10 +301,12 @@ class SpendingTimeWidgetState extends State<SpendingTimeWidget> {
                           title: "Time's Up!",
                           // desc: 'タイマーが終了しました！',
                           btnOkText: 'OK',
-                          btnOkOnPress: () {
+                          btnOkOnPress: () async {
                             //アプリレビュー依頼のダイアログを表示
-                            ReviewHelper.showReviewDialog(context);
-                            print("interstitialAdWidget.showAd();を実行します");
+                            await ReviewHelper.showReviewDialog(context);
+                            //インタースティシャル広告を表示
+                            interstitialAdManager.showInterstitialAd();
+                            interstitialAdManager.interstitialAd();
                           },
                         )..show();
                       },
